@@ -8,7 +8,7 @@ This repository keeps the upstream copyright and MIT license. Modifications are 
 
 ## Stack and build
 
-Go 1.25+; Vue 3, TypeScript, Vite, Tailwind CSS; npm lockfile; optional Camoufox or pure Go WAA runtime. Node.js supports 22.13+ within 22.x, or 24+. Python 3.9+ is needed for publication tooling and the macOS background-service helper.
+Go 1.25+; Vue 3, TypeScript, Vite, Tailwind CSS; npm lockfile; optional Camoufox or pure Go WAA runtime. Node.js supports 22.13+ within 22.x, or 24+. Python 3.9+ is needed for the macOS background-service helper.
 
 ```bash
 git clone https://github.com/saubaka/AIstudio-API-Next.git
@@ -38,8 +38,6 @@ Use your `PROXY_API_KEY` and a model from the selected channel's actual catalog.
 
 Account eligibility, quotas and cache hits remain controlled by the upstream service. This project is not affiliated with Google.
 
-## Versioning
+## Updating
 
-This repository contains source, tests, dependency manifests, lockfiles, safe configuration examples and documentation. Installed dependencies, binaries, secrets and user data are excluded.
-
-`VERSION` is authoritative. Commit subjects contain only `vX.Y.Z`; bodies contain Simplified Chinese bullet points describing changes and verified results. GitHub Actions checks and builds source; it does not create tags or Releases automatically. Preserve `.env`, `auth/` and `runtime/` when updating your own installation.
+Stop the application before updating. Preserve `.env`, `auth/` and `runtime/`, pull the latest source, and rebuild the frontend and Go binary. Build artifacts are available from GitHub Actions.

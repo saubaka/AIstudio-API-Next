@@ -25,18 +25,18 @@ Build 不提供 CountTokens、Live、Robotics、Veo、转录和 Interactions 等
 | 后端 | Go、标准库 HTTP 服务、账户调度与协议适配 |
 | 网页控制台 | Vue 3、TypeScript、Vite、Tailwind CSS |
 | WAA 运行时 | 纯 Go 运行时及内嵌 JavaScript 引擎；可选 Camoufox |
-| 开发与校验 | Go test / race / vet、ESLint、vue-tsc、媒体回归、Python 源码同步工具 |
+| 开发与校验 | Go test / race / vet、ESLint、vue-tsc、媒体回归 |
 | 构建与依赖 | Go Modules（go.mod / go.sum）、npm（package.json / package-lock.json） |
 
 前端资源在编译时嵌入 Go 程序，运行时无需另起 Node.js 服务。为保持现有内部导入兼容，Go module 路径仍沿用上游名称，这不表示当前仓库由上游维护。
 
 ## 部署准备
 
-本仓库发布纯源码，不附带安装好的依赖、可执行文件、账户、密钥或数据库。当前没有自动创建的 Release；以下步骤均从源码构建。
+本仓库发布纯源码，不附带安装好的依赖、可执行文件、账户、密钥或数据库。以下步骤均从源码构建。
 
 - 安装 Git、Go **1.25.0 或更高版本**、Node.js **22.13+ 的 22.x 或 24+**，以及随 Node.js 提供的 npm；具体要求以 `go.mod` 和 `web/package.json` 为准。
 - macOS 后台启停脚本还需要 Python 3.9+。直接运行 Go 程序不需要 Python。
-- 服务和登录浏览器需要能够访问 Google AI Studio。按自己的网络情况配置代理，不必照搬开发机地址。
+- 服务和登录浏览器需要能够访问 Google AI Studio。按自己的网络情况配置代理。
 - 首先复制配置样例，再编辑自己的 `.env`。建议生成随机 API 密钥，例如 `openssl rand -hex 32`，不要把真实配置提交到 Git。
 
 常用配置：
@@ -123,7 +123,7 @@ ssh -L 2048:127.0.0.1:2048 用户名@服务器地址
 
 ### 部署验证与更新
 
-macOS ARM64 已在开发环境完成构建和测试。Windows、Linux、macOS Intel 的说明提供对应源码构建方法；交叉编译成功不等于这些平台已经实际运行验收。GitHub Actions 会执行源码检查、前端构建、Go 测试及多平台交叉编译，构建附件在 Actions 中获取，不自动创建标签或 Release。
+macOS ARM64 已在开发环境完成构建和测试。Windows、Linux、macOS Intel 的说明提供对应源码构建方法；交叉编译成功不等于这些平台已经实际运行验收。GitHub Actions 会执行源码检查、前端构建、Go 测试及多平台交叉编译，构建附件可从 Actions 下载。
 
 更新前停止程序，保留 `.env`、`auth/` 和 `runtime/`，拉取新源码后重新构建前端与 Go 程序。不要直接用原上游的发布包替换本项目程序，否则可能丢失本项目功能。
 
@@ -150,7 +150,7 @@ API 密钥使用 `.env` 中的 `PROXY_API_KEY`；模型名称从当前账户的�
 
 Codex 通过 Responses 协议接入，配置、工具调用、缓存统计及媒体上传示例见[Codex 接入说明](Codex接入与媒体上传说明.md)。程序不绕过上游账户权限和额度，也不保证每次请求都命中缓存。
 
-## 测试与版本
+## 测试
 
 前端必须先构建，Go 才能嵌入完整网页资源：
 
@@ -163,12 +163,7 @@ node qa/media-regression.mjs
 cd ..
 go test -race -mod=readonly ./cmd/... ./internal/...
 go vet ./cmd/... ./internal/...
-python3 -B -m unittest discover -s scripts/tests -v
 ```
-
-当前版本以 [VERSION](VERSION) 为准，历史记录见 [CHANGELOG.md](CHANGELOG.md)。修复及文档调整递增修订号，兼容功能递增次版本号，不兼容改动递增主版本号；每轮实际更改只递增一次。
-
-提交标题只写 `vX.Y.Z`，正文使用以 `- ` 开头的简体中文要点，概括实际更改和验证结果。
 
 ## 来源、版权与许可
 

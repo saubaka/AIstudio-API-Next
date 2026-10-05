@@ -1,0 +1,252 @@
+export type Locale = 'zh-CN' | 'zh-TW' | 'en' | 'ja' | 'ko' | 'fr' | 'de'
+
+export type TabID =
+  'logs' | 'accounts' | 'models' | 'requests' | 'settings' | 'playground' | 'build'
+
+export interface LocalBrowser {
+  id: string
+  name: string
+  automatic: boolean
+}
+export interface GoogleLoginOptions {
+  browsers: LocalBrowser[]
+  url: string
+  chrome_import_supported: boolean
+}
+export interface GooglePasteCheck {
+  format: 'cookie' | 'curl' | 'json'
+  cookie_count: number
+  missing: string[]
+  ready: boolean
+}
+export interface GoogleLoginSession {
+  id: string
+  url: string
+  browser_id: string
+  browser_name: string
+  capture: 'automatic' | 'manual'
+  expires_at: string
+  opened: boolean
+}
+export interface GoogleLoginStart {
+  browser_id: string
+  mode: 'open' | 'link'
+  account_id: string
+  proxy: string
+  locale: string
+  timezone: string
+}
+
+export type AccountState =
+  'ready' | 'busy' | 'cooldown' | 'auth_required' | 'unavailable' | 'disabled'
+
+export interface Account {
+  id: string
+  label: string
+  enabled: boolean
+  state: AccountState
+  proxy: string
+  locale: string
+  timezone: string
+  models: string[]
+  benefit_tier: string
+  message: string
+}
+
+export interface AccountDraft {
+  label: string
+  enabled: boolean
+  proxy: string
+  locale: string
+  timezone: string
+}
+
+export interface AccountLoginInput {
+  proxy: string
+  locale: string
+  timezone: string
+}
+
+export interface ChromeImportProfile {
+  id: string
+  profile: string
+  display_name: string
+  email: string
+  locale: string
+}
+
+export interface ChromeImportInput extends AccountLoginInput {
+  account_ids: string[]
+}
+
+export interface AccountCounters {
+  total: number
+  ready: number
+  busy: number
+  cooldown: number
+  auth_required: number
+}
+
+export interface ServiceStatus {
+  state: 'STOPPED' | 'LAUNCHING' | 'RUNNING'
+  running: boolean
+  ready: boolean
+  version: string
+  active_requests: number
+  accounts: AccountCounters
+}
+
+export interface AdminLog {
+  time: string
+  level: string
+  source: string
+  message: string
+  event: string
+  request?: RequestLog
+}
+
+// RequestLog 对应请求日志的结构化载荷
+export interface RequestLog {
+  id: string
+  state: 'running' | 'completed' | 'tool_calls' | 'limited' | 'blocked' | 'failed' | 'cancelled'
+  model?: string
+  method?: string
+  path?: string
+  status?: number
+  duration_ms?: number
+  tool_calls?: number
+  finish_reason?: string
+  error?: string
+  input_messages?: number
+  input_text_chars?: number
+  input_media?: number
+  input_media_bytes?: number
+  input_files?: number
+  parameters?: Record<string, string>
+  first_event_ms?: number
+  upstream_bytes?: number
+  channel?: UpstreamChannel
+  usage?: {
+    cached_tokens?: number
+    uncached_tokens?: number
+    cache_tokens_known?: boolean
+    estimated?: boolean
+    input_tokens: number
+    reasoning_tokens: number
+    reply_tokens: number
+    output_tokens: number
+    total_tokens: number
+    average_tokens_per_second: number
+  }
+}
+
+export interface Model {
+  id: string
+  name: string
+  description?: string
+  methods: string[]
+  input_token_limit?: number
+  output_token_limit?: number
+  capabilities?: Record<string, boolean>
+  capability_options?: Record<string, string[]>
+  access_modes?: number[]
+  paid?: boolean
+  channels?: UpstreamChannel[]
+}
+
+export type UpstreamChannel = 'playground' | 'build'
+
+export interface Cooldown {
+  account_id: string
+  account_label: string
+  channel: UpstreamChannel
+  model_id: string
+  until: string
+  reason?: string
+}
+
+export type RequestState = 'queued' | 'running' | 'completed' | 'cancelled' | 'failed'
+
+export interface RequestSummary {
+  id: string
+  model: string
+  account_id: string
+  account_label: string
+  channel?: UpstreamChannel
+  state: RequestState
+  started_at: string
+}
+
+export interface ServiceConfig {
+  admin_auth_enabled: boolean
+  admin_username: string
+  admin_password?: string
+  admin_password_set: boolean
+  build_native_nonstream: boolean
+  auth_states: string
+  listen_addr: string
+  proxy_api_key: string
+  active_listen_addr: string
+  active_proxy_api_key: string
+  management_restart_required: boolean
+  service_restart_required: boolean
+  proxy: string
+  init_timeout: string
+  request_timeout: string
+  warm_worker_limit: number
+  max_active_workers: number
+  warm_startup_concurrency: number
+  per_account_concurrency: number
+  routing_strategy: 'round-robin' | 'fill-first'
+  upstream_channels: UpstreamChannel[]
+  waa_backend: 'camoufox' | 'go'
+  temporary_chat: boolean
+}
+
+export type AdminEvent =
+  | { type: 'status'; data: ServiceStatus }
+  | { type: 'log'; data: AdminLog }
+  | { type: 'accounts'; data: { accounts: Account[] } }
+  | { type: 'models'; data: { models: Model[] } }
+  | { type: 'cooldowns'; data: Cooldown[] }
+  | { type: 'request'; data: RequestSummary }
+
+export type PlaygroundProtocol = 'openai-chat' | 'openai-responses' | 'anthropic' | 'gemini'
+
+export type PlaygroundMode = 'text' | 'image' | 'speech' | 'music' | 'video'
+
+export type PlaygroundReasoning = '' | 'low' | 'medium' | 'high'
+
+export type PlaygroundTool =
+  '' | 'web_search' | 'image_search' | 'code_interpreter' | 'url_context' | 'google_maps'
+
+export interface PlaygroundInput {
+  channel: UpstreamChannel
+  mode: PlaygroundMode
+  protocol: PlaygroundProtocol
+  model: string
+  prompt: string
+  system: string
+  stream: boolean
+  reasoning: PlaygroundReasoning
+  tool: PlaygroundTool
+  imageSize: 'auto' | '1024x1024' | '1536x1024' | '1024x1536'
+  imageQuality: 'auto' | 'low' | 'medium' | 'high'
+  voice: string
+  apiKey: string
+}
+
+export interface PlaygroundMedia {
+  mime: string
+  url: string
+}
+
+export interface PlaygroundResult {
+  text: string
+  reasoning: string
+  tools: string
+  media: PlaygroundMedia[]
+  raw: string
+  durationMs: number
+  status: number
+}

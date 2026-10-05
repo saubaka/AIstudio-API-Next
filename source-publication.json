@@ -1,0 +1,21 @@
+{
+  "source_directories": [".github", "cmd", "docs", "internal", "scripts", "web"],
+  "source_assets": ["internal/waa/timezones.json.gz"],
+  "source_files": [
+    ".env.example", ".gitattributes", ".gitignore", "AGENTS.md", "CHANGELOG.md",
+    "LICENSE", "README.md", "README_en.md", "VERSION", "go.mod", "go.sum",
+    "local-service.py", "source-publication.json", "start.bat",
+    "Codex接入与媒体上传说明.md", "Google登录重构说明.md", "UI重构说明.md",
+    "macOS浏览器登录教程.md", "本地部署.md", "渠道重构说明.md", "生图展示修复说明.md",
+    "源码发布说明.md", "启动.command", "停止.command", "登录账户.command"
+  ],
+  "public_protocol_identifiers": [
+    {
+      "file": "internal/aistudio/runtime_go.go",
+      "sha256": "f7329cb1ebbee3a0bdbd7984dc840b19f15f561ce9d1307919bba8c269736e66",
+      "reason": "Google 官方公开前端使用的 WAA 协议标识，不是用户私有凭据；仅白名单此文件中的此哈希。",
+      "verified_date": "2026-10-05",
+      "source": "https://www.gstatic.com/_/mss/boq-makersuite/_/js/k=boq-makersuite.MakerSuite.en_US.q8asZEqiCgg.2018.O/am=gQQAnA/d=1/excm=_b/ed=1/dg=0/wt=2/ujg=1/rs=AMOXD2-R5KWuZptzS8uy3V01PCI7iW0DgA/dti=1/m=_b"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 
 An independently maintained derivative of [Mag1cFall/AIStudio2API](https://github.com/Mag1cFall/AIStudio2API), providing separate Playground and App Build API channels, tool calling, local-browser sign-in, file uploads, and a Vue console.
 
-This repository keeps the upstream copyright and MIT license. Resetting Git history does not change the origin or ownership of the original code. Modifications are maintained by saubaka and this repository's contributors under MIT; third-party licenses remain applicable. See the [Chinese README](README.md#来源版权与许可) for attribution and scope.
+This repository keeps the upstream copyright and MIT license. Modifications are maintained by saubaka and this repository's contributors under MIT; third-party licenses remain applicable. See the [Chinese README](README.md#来源版权与许可) for attribution and scope.
 
 ## Stack and build
 
@@ -38,8 +38,8 @@ Use your `PROXY_API_KEY` and a model from the selected channel's actual catalog.
 
 Account eligibility, quotas and cache hits remain controlled by the upstream service. This project is not affiliated with Google.
 
-## Source publication
+## Versioning
 
-This repository contains source, tests, dependency manifests, lockfiles, safe configuration examples and documentation. Installed dependencies, binaries, secrets and user data are excluded. The maintainer's `bakagit` mirror is uploaded as the repository root, without an enclosing folder.
+This repository contains source, tests, dependency manifests, lockfiles, safe configuration examples and documentation. Installed dependencies, binaries, secrets and user data are excluded.
 
 `VERSION` is authoritative. Commit subjects contain only `vX.Y.Z`; bodies contain Simplified Chinese bullet points describing changes and verified results. GitHub Actions checks and builds source; it does not create tags or Releases automatically. Preserve `.env`, `auth/` and `runtime/` when updating your own installation.

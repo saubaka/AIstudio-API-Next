@@ -4,7 +4,7 @@
 
 更好的 AI Studio 反向代理：将 **Playground 与 App Build 分成两个独立 API 渠道**，同时提供工具调用、流式输出、账户管理和网页控制台，方便接入 Codex 等客户端。
 
-本项目基于 [Mag1cFall/AIStudio2API](https://github.com/Mag1cFall/AIStudio2API) 的源码继续开发，是独立维护的衍生版本。感谢原作者 Mag1cFall 和上游贡献者提供的协议适配与运行时基础。重建 Git 历史不改变代码来源及原有版权归属。
+本项目基于 [Mag1cFall/AIStudio2API](https://github.com/Mag1cFall/AIStudio2API) 的源码继续开发，是独立维护的衍生版本。感谢原作者 Mag1cFall 和上游贡献者提供的协议适配与运行时基础。
 
 ## 主要功能
 
@@ -150,7 +150,7 @@ API 密钥使用 `.env` 中的 `PROXY_API_KEY`；模型名称从当前账户的�
 
 Codex 通过 Responses 协议接入，配置、工具调用、缓存统计及媒体上传示例见[Codex 接入说明](Codex接入与媒体上传说明.md)。程序不绕过上游账户权限和额度，也不保证每次请求都命中缓存。
 
-## 测试与源码维护
+## 测试与版本
 
 前端必须先构建，Go 才能嵌入完整网页资源：
 
@@ -168,16 +168,11 @@ python3 -B -m unittest discover -s scripts/tests -v
 
 当前版本以 [VERSION](VERSION) 为准，历史记录见 [CHANGELOG.md](CHANGELOG.md)。修复及文档调整递增修订号，兼容功能递增次版本号，不兼容改动递增主版本号；每轮实际更改只递增一次。
 
-维护者的开发目录是唯一源码来源，`bakagit/` 由同步工具生成，不手动维护两份代码。上传时以其中内容作为仓库根目录，所以在 GitHub 中看不到额外嵌套的 `bakagit` 文件夹。详细同步和发布步骤见[源码发布说明](源码发布说明.md)。
-
-提交标题只写 `vX.Y.Z`，正文使用以 `- ` 开头的简体中文要点，概括实际更改和验证结果。提交、推送、创建仓库和部署仍需维护者明确授权，不自动创建标签或 Release。
+提交标题只写 `vX.Y.Z`，正文使用以 `- ` 开头的简体中文要点，概括实际更改和验证结果。
 
 ## 来源、版权与许可
 
 - **原始项目**：[Mag1cFall/AIStudio2API](https://github.com/Mag1cFall/AIStudio2API)。原始代码遵循 MIT 许可证，`Copyright (c) 2026 Mag1cFall` 及完整许可文本保留在 [LICENSE](LICENSE) 中。
 - **本项目修改**：由 [saubaka](https://github.com/saubaka) 及本仓库贡献者维护，新增及修改部分继续按 MIT 许可证发布，不主张原始代码的独占版权。上游并不负责本仓库的新增功能或维护。
 - **第三方组件**：保留各自许可和版权声明，包括内嵌 [goja](internal/waa/goja/LICENSE)、[Lucene 相关代码](internal/waa/goja/ftoa/LICENSE_LUCENE)与 [V8 相关代码](internal/waa/goja/ftoa/internal/fast/LICENSE_V8)。依赖和外部运行时按各自许可证使用，本仓库不重新授予其版权。
-- **视觉参考**：控制台样式参考维护者的 BakaMail（`code/codedx/8`），实现说明见 [UI 重构说明](UI重构说明.md)。
 - **服务与数据**：Google、AI Studio、Gemini 等名称及商标属于各自权利人；本项目不是 Google 官方产品。MIT 许可针对本项目代码，不授予第三方服务使用权、账户权限或用户内容版权。
-
-重新分发时请保留适用的版权及许可声明。Cookie、API 密钥、账户资料、请求记录和上传文件不属于发布源码，不应上传到公开仓库。
